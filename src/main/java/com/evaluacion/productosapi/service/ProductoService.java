@@ -2,17 +2,22 @@ package com.evaluacion.productosapi.service;
 
 import com.evaluacion.productosapi.entity.Producto;
 import com.evaluacion.productosapi.repository.ProductoRepository;
+import com.evaluacion.productosapi.service.exception.CategoriaInvalidaException;
 import com.evaluacion.productosapi.service.exception.ProductoNoEncontradoException;
 import com.evaluacion.productosapi.service.exception.StockInsuficienteException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Service
 public class ProductoService {
 
     private final ProductoRepository productoRepository;
+
+    //Se especifico las categorias validas ya definidas
+    private static final List<String> CATEGORIAS_VALIDAS = Arrays.asList("Tecnología", "Accesorios", "Oficina");
 
     public ProductoService(ProductoRepository productoRepository) {
         this.productoRepository = productoRepository;
@@ -27,6 +32,14 @@ public class ProductoService {
                 .orElseThrow(() -> new ProductoNoEncontradoException(id));
     }
 
+    public List<Producto> listarPorCategoria(String categoria) {
+        // Validar que la categoría enviada por el front sea válida, segun lo solicitado en el requerimiento
+        if (!CATEGORIAS_VALIDAS.contains(categoria)) {
+            throw new CategoriaInvalidaException(categoria);
+        }
+        return productoRepository.findByCategoria(categoria);
+    }
+
     public Producto crear(Producto producto) {
         producto.setId(null);
         return productoRepository.save(producto);
@@ -37,6 +50,9 @@ public class ProductoService {
         existente.setNombre(productoActualizado.getNombre());
         existente.setPrecio(productoActualizado.getPrecio());
         existente.setCantidadDisponible(productoActualizado.getCantidadDisponible());
+        //Se modifica para que las endpoints acepten los nuevos campos
+        existente.setDescripcion(productoActualizado.getDescripcion());
+        existente.setCategoria(productoActualizado.getCategoria());
         return productoRepository.save(existente);
     }
 

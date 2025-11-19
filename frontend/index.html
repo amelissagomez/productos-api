@@ -3,78 +3,328 @@
 <head>
   <meta charset="UTF-8" />
   <title>Productos - Prueba Técnica</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f5f5f5;
+    }
+    
+    h2, h3 {
+      color: #333;
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      background-color: white;
+    }
+    
+    th, td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+    
+    th {
+      background-color: #4a6fa5;
+      color: white;
+      font-weight: bold;
+    }
+    
+    tr:hover {
+      background-color: #f1f7ff;
+    }
+    
+    input[type="text"], input[type="number"] {
+      padding: 8px 12px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      width: 200px;
+      margin-right: 10px;
+    }
+    
+    button {
+      background-color: #4a6fa5;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      margin-right: 10px;
+    }
+    
+    button:hover {
+      background-color: #3a5a8a;
+    }
+    
+    button.div-boton-mostrar-productos {
+      background-color: #6c757d;
+    }
+    
+    button.div-boton-mostrar-productos:hover {
+      background-color: #5a6268;
+    }
+    
+    hr {
+      margin: 30px 0;
+      border: 0;
+      border-top: 1px solid #ddd;
+    }
+    
+    .error {
+      color: #d32f2f;
+      background-color: #ffebee;
+      padding: 10px;
+      border-radius: 4px;
+      margin: 10px 0;
+    }
+    
+    .success {
+      color: #388e3c;
+      background-color: #e8f5e9;
+      padding: 10px;
+      border-radius: 4px;
+      margin: 10px 0;
+    }
+    
+    .descripcion {
+      max-width: 300px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    
+    .categoria {
+      font-weight: bold;
+      color: #4a6fa5;
+    }
+    
+    .card-busqueda-id {
+      display: flex;
+      gap: 30px;
+      margin-bottom: 20px;
+    }
+    
+    .div-busqueda {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      flex: 1;
+    }
+    
+    .formulario-busqueda{
+      margin-bottom: 15px;
+    }
+    
+    .formulario-busqueda label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 500;
+    }
+    
+    .div-boton-mostrar-productos {
+      margin-top: 20px;
+      text-align: center;
+    }
+  </style>
 </head>
 <body>
 
   <h2>Lista de Productos</h2>
-
-  <table border="1" width="100%">
+  <!--Tabla para listar los productos-->
+  <table>
     <thead>
       <tr>
         <th>ID</th>
         <th>Nombre</th>
         <th>Precio</th>
         <th>Cantidad Disponible</th>
+        <th>Categoría</th>
+        <th>Descripción</th>
       </tr>
     </thead>
     <tbody id="tablaProductos"></tbody>
   </table>
 
   <hr>
+  <!--Card para los filtros por id y por categoria-->
+  <div class="card-busqueda-id">
+    <div class="div-busqueda">
+      <h3>Buscar producto por ID</h3>
+      <div class="formulario-busqueda">
+        <label for="idInput">ID del producto:</label>
+        <input type="number" id="idInput" placeholder="Ej: 1, 2, 3..." min="1" />
+      </div>
+      <button onclick="buscarPorId()">Buscar por ID</button>
+    </div>
 
-  <!-- Esta es la parte que debe implementar el candidato -->
-  <h3>Buscar productos por categoría</h3>
-  <input type="text" id="categoriaInput" placeholder="Ej: Tecnología" />
-  <button onclick="buscarPorCategoria()">Buscar</button>
+    <div class="div-busqueda">
+      <h3>Buscar productos por categoría</h3>
+      <div class="formulario-busqueda">
+        <label for="categoriaInput">Categoría:</label>
+        <input type="text" id="categoriaInput" placeholder="Ej: Tecnología, Accesorios, Oficina" />
+      </div>
+      <button onclick="buscarPorCategoria()">Buscar por categoría</button>
+    </div>
+  </div>
+  <!--Boton para mostrar todos los productos-->
+  <div class="div-boton-mostrar-productos">
+    <button onclick="cargarProductos()" class="boton-mostrar-productos">Mostrar todos los productos</button>
+  </div>
 
   <p id="mensaje"></p>
 
   <script>
+    //URL de la API
     const API_URL = 'http://localhost:8080/productos';
 
     // Cargar productos al iniciar
     window.onload = cargarProductos;
 
     function cargarProductos() {
+      limpiarMensaje();
+      
       fetch(API_URL)
-        .then(response => response.json())
-        .then(data => mostrarProductos(data))
-        .catch(error => console.error('Error cargando productos:', error));
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Error al cargar productos');
+          }
+          return response.json();
+        })
+        .then(data => {
+          mostrarProductos(data);
+          mostrarMensaje(`Se cargaron ${data.length} productos.`, 'success');
+        })
+        .catch(error => {
+          console.error('Error cargando productos:', error);
+          mostrarMensaje('Error al cargar productos: ' + error.message, 'error');
+        });
     }
 
     function mostrarProductos(productos) {
       const tabla = document.getElementById('tablaProductos');
       tabla.innerHTML = '';
 
+      if (productos.length === 0) {
+        tabla.innerHTML = '<tr><td colspan="6" style="text-align: center;">No hay productos disponibles</td></tr>';
+        return;
+      }
+
+      // Si es un solo producto (objeto), se convierte a vector
+      if (!Array.isArray(productos)) {
+        productos = [productos];
+      }
+
       productos.forEach(p => {
         tabla.innerHTML += `
           <tr>
             <td>${p.id}</td>
             <td>${p.nombre}</td>
-            <td>${p.precio}</td>
+            <td>$${p.precio}</td>
             <td>${p.cantidadDisponible}</td>
+            <td class="categoria">${p.categoria || 'N/A'}</td>
+            <td class="descripcion" title="${p.descripcion || ''}">${p.descripcion || 'Sin descripción'}</td>
           </tr>
         `;
       });
     }
 
-    // Método que debe implementar el candidato
+    // Método para buscar por ID
+    function buscarPorId() {
+      const id = document.getElementById('idInput').value.trim();
+      const mensajeElement = document.getElementById('mensaje');
+
+      if (id === '') {
+        mostrarMensaje('Ingrese un ID de producto.', 'error');
+        return;
+      }
+
+      if (isNaN(id) || parseInt(id) <= 0) {
+        mostrarMensaje('El ID debe ser un número válido mayor a 0.', 'error');
+        return;
+      }
+
+      limpiarMensaje();
+
+      // Realizar la búsqueda por ID
+      fetch(`${API_URL}/${id}`)
+        .then(response => {
+          if (!response.ok) {
+            if (response.status === 404) {
+              return response.json().then(errorData => {
+                throw new Error(errorData.detalle || 'Producto no encontrado');
+              });
+            }
+            throw new Error('Error en la búsqueda');
+          }
+          return response.json();
+        })
+        .then(data => {
+          mostrarProductos(data);
+          mostrarMensaje(`Producto con ID ${id} encontrado.`, 'success');
+        })
+        .catch(error => {
+          console.error('Error buscando por ID:', error);
+          mostrarMensaje(error.message, 'error');
+          // Limpiar la tabla si hay error
+          document.getElementById('tablaProductos').innerHTML = '';
+        });
+    }
+
+    // Método para buscar por categoría
     function buscarPorCategoria() {
       const categoria = document.getElementById('categoriaInput').value.trim();
 
       if (categoria === '') {
-        document.getElementById('mensaje').textContent = 'Ingrese una categoría.';
+        mostrarMensaje('Ingrese una categoría.', 'error');
         return;
       }
 
-      // Espacio para implementar 
-      // el servicio /productos/categoria/{categoria}
-      // ejemplo       
-	  // fetch(`${API_URL}/categoria/${categoria}`)...
-      // 
-      
-      
-      document.getElementById('mensaje').textContent = 'Funcionalidad pendiente por implementar en la prueba.';
+      limpiarMensaje();
+
+      // Realizar la búsqueda por categoría
+      fetch(`${API_URL}/categoria/${encodeURIComponent(categoria)}`)
+        .then(response => {
+          if (!response.ok) {
+            if (response.status === 400) {
+              return response.json().then(errorData => {
+                throw new Error(errorData.detalle || 'Categoría no válida');
+              });
+            }
+            throw new Error('Error en la búsqueda');
+          }
+          return response.json();
+        })
+        .then(data => {
+          mostrarProductos(data);
+          mostrarMensaje(`Se encontraron ${data.length} productos en la categoría "${categoria}".`, 'success');
+        })
+        .catch(error => {
+          console.error('Error buscando por categoría:', error);
+          mostrarMensaje(error.message, 'error');
+          // Limpiar la tabla si hay error
+          document.getElementById('tablaProductos').innerHTML = '';
+        });
+    }
+
+    // Funciones auxiliares para manejar mensajes
+    function mostrarMensaje(mensaje, tipo) {
+      const mensajeElement = document.getElementById('mensaje');
+      mensajeElement.textContent = mensaje;
+      mensajeElement.className = tipo;
+    }
+
+    function limpiarMensaje() {
+      const mensajeElement = document.getElementById('mensaje');
+      mensajeElement.textContent = '';
+      mensajeElement.className = '';
     }
   </script>
 </body>

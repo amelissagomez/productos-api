@@ -2,11 +2,12 @@ package com.evaluacion.productosapi.controller;
 
 import com.evaluacion.productosapi.entity.Producto;
 import com.evaluacion.productosapi.service.ProductoService;
-import com.evaluacion.productosapi.service.exception.ProductoNoEncontradoException;
-import com.evaluacion.productosapi.service.exception.StockInsuficienteException;
+//import com.evaluacion.productosapi.service.exception.CategoriaInvalidaException;
+//import com.evaluacion.productosapi.service.exception.ProductoNoEncontradoException;
+//import com.evaluacion.productosapi.service.exception.StockInsuficienteException;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+//import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,6 +31,12 @@ public class ProductoController {
     @GetMapping("/{id}")
     public Producto obtener(@PathVariable Long id) {
         return productoService.obtenerPorId(id);
+    }
+
+    //Nuevo endpoint solicitado para filtrar por categoria
+    @GetMapping("/categoria/{categoria}")
+    public List<Producto> listarPorCategoria(@PathVariable String categoria){
+        return productoService.listarPorCategoria(categoria);
     }
 
     @PostMapping
@@ -56,15 +63,17 @@ public class ProductoController {
                            @RequestParam int cantidad) {
         return productoService.vender(id, cantidad);
     }
-
+/*
     // Manejo básico de errores (podrías extraer a @ControllerAdvice)
     @ExceptionHandler(ProductoNoEncontradoException.class)
     public ResponseEntity<String> manejarNoEncontrado(ProductoNoEncontradoException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
 
-    @ExceptionHandler({StockInsuficienteException.class, IllegalArgumentException.class})
+    @ExceptionHandler({StockInsuficienteException.class, 
+                      IllegalArgumentException.class,
+                      CategoriaInvalidaException.class})
     public ResponseEntity<String> manejarBadRequest(RuntimeException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
-    }
+    }*/
 }
