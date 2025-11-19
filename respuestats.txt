@@ -1,0 +1,19 @@
+@Controller
+Es una anotación que marca una clase como controlador en Spring MVC. Se usa para aplicaciones web tradicionales que devuelven vistas (HTML).
+@RestController
+Es una combinación de Controller+ResponseBody. Se usa para APIs REST que devuelven JSON/XML.
+@Service
+Es una anotación que marca una clase como servicio de negocio. Contiene la lógica de la aplicación.
+Qué es un DTO y uso recomendado
+DTO = Data Transfer Object
+Es un objeto simple que transporta datos entre capas sin lógica de negocio.
+Explicar Promesa en JavaScript ¿Qué es una Promesa?
+Una promesa es un objeto que representa un valor que puede estar disponible ahora, en el futuro, o nunca.
+¿Qué es H2?
+H2 es una base de datos SQL embebida en Java. Se ejecuta en memoria sin necesidad de instalación. Rapida para pruebas en dev.
+Qué mejorarías para un entorno productivo
+Variables de entorno
+Autenticación y autorización
+Paginación
+Caché
+Categorias como tabla en db.
