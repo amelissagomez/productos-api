@@ -1,81 +1,81 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-  <meta charset="UTF-8" />
-  <title>Productos - Prueba Técnica</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gestión de Productos - Prueba Técnica</title>
+    <link rel="stylesheet" href="styles.css" />
 </head>
+
 <body>
 
-  <h2>Lista de Productos</h2>
+<div class="container">
+    <h1>Gestión de Productos</h1>
 
-  <table border="1" width="100%">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Nombre</th>
-        <th>Precio</th>
-        <th>Cantidad Disponible</th>
-      </tr>
-    </thead>
-    <tbody id="tablaProductos"></tbody>
-  </table>
+    <h2>Lista de Productos</h2>
 
-  <hr>
+    <table border="1" width="100%">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Precio</th>
+            <th>Cantidad Disponible</th>
+            <th>Descripción</th>
+            <th>Categoría</th>
+        </tr>
+        </thead>
+        <tbody id="tablaProductos"></tbody>
+    </table>
 
-  <!-- Esta es la parte que debe implementar el candidato -->
-  <h3>Buscar productos por categoría</h3>
-  <input type="text" id="categoriaInput" placeholder="Ej: Tecnología" />
-  <button onclick="buscarPorCategoria()">Buscar</button>
+    <hr>
 
-  <p id="mensaje"></p>
+    <h2>Buscar Productos</h2>
 
-  <script>
-    const API_URL = 'http://localhost:8080/productos';
+    <h3>Por ID</h3>
+    <div class="form-group">
+        <input type="number" id="idInput" placeholder="Ingresa ID del producto" min="1" />
+        <button onclick="buscarPorId()">Buscar por ID</button>
+    </div>
 
-    // Cargar productos al iniciar
-    window.onload = cargarProductos;
+    <h3>Por Categoría (Nombre)</h3>
+    <div class="form-group">
+        <select id="categoriaSelect">
+            <option value="">-- Selecciona una categoría --</option>
+            <option value="Tecnología">Tecnología</option>
+            <option value="Accesorios">Accesorios</option>
+            <option value="Oficina">Oficina</option>
+            <option value="Deportes">Deportes</option>
+        </select>
+        <button onclick="buscarPorCategoria()">Buscar por Categoría</button>
+        <button onclick="cargarProductos()">Mostrar Todos</button>
+    </div>
 
-    function cargarProductos() {
-      fetch(API_URL)
-        .then(response => response.json())
-        .then(data => mostrarProductos(data))
-        .catch(error => console.error('Error cargando productos:', error));
-    }
+    <p id="mensaje"></p>
 
-    function mostrarProductos(productos) {
-      const tabla = document.getElementById('tablaProductos');
-      tabla.innerHTML = '';
+    <hr>
 
-      productos.forEach(p => {
-        tabla.innerHTML += `
-          <tr>
-            <td>${p.id}</td>
-            <td>${p.nombre}</td>
-            <td>${p.precio}</td>
-            <td>${p.cantidadDisponible}</td>
-          </tr>
-        `;
-      });
-    }
+    <h2>Crear Nuevo Producto</h2>
+    <div class="form-group">
+        <input type="text" id="nombre" placeholder="Nombre del producto" />
+        <input type="number" id="precio" placeholder="Precio" step="0.01" />
+        <input type="number" id="cantidad" placeholder="Cantidad disponible" />
+    </div>
+    <div class="form-group">
+        <input type="text" id="descripcion" placeholder="Descripción (opcional)" />
+        <select id="categoria">
+            <option value="">-- Selecciona categoría --</option>
+            <option value="Tecnología">Tecnología</option>
+            <option value="Accesorios">Accesorios</option>
+            <option value="Oficina">Oficina</option>
+            <option value="Deportes">Deportes</option>
+        </select>
+    </div>
+    <button onclick="crearProducto()">Crear Producto</button>
 
-    // Método que debe implementar el candidato
-    function buscarPorCategoria() {
-      const categoria = document.getElementById('categoriaInput').value.trim();
-
-      if (categoria === '') {
-        document.getElementById('mensaje').textContent = 'Ingrese una categoría.';
-        return;
-      }
-
-      // Espacio para implementar 
-      // el servicio /productos/categoria/{categoria}
-      // ejemplo       
-	  // fetch(`${API_URL}/categoria/${categoria}`)...
-      // 
-      
-      
-      document.getElementById('mensaje').textContent = 'Funcionalidad pendiente por implementar en la prueba.';
-    }
-  </script>
+    <script src="script.js"></script>
+</div>
 </body>
+
 </html>

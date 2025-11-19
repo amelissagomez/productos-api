@@ -37,6 +37,8 @@ public class ProductoService {
         existente.setNombre(productoActualizado.getNombre());
         existente.setPrecio(productoActualizado.getPrecio());
         existente.setCantidadDisponible(productoActualizado.getCantidadDisponible());
+        existente.setDescripcion(productoActualizado.getDescripcion());
+        existente.setCategoria(productoActualizado.getCategoria());
         return productoRepository.save(existente);
     }
 
@@ -61,5 +63,16 @@ public class ProductoService {
         producto.setCantidadDisponible(disponible - cantidad);
         // gracias a @Transactional y JPA, el cambio se persiste automáticamente
         return producto;
+    }
+
+    public List<Producto> buscarPorCategoria(String categoria) {
+        validarCategoria(categoria);
+        return productoRepository.findByCategoria(categoria);
+    }
+
+    private void validarCategoria(String categoria) {
+        if (!categoria.matches("^(Tecnología|Accesorios|Oficina)$")) {
+            throw new IllegalArgumentException("La categoría debe ser: Tecnología, Accesorios u Oficina");
+        }
     }
 }
