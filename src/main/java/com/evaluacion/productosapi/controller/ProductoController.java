@@ -1,12 +1,10 @@
 package com.evaluacion.productosapi.controller;
 
+import com.evaluacion.productosapi.entity.CategoriaProducto;
 import com.evaluacion.productosapi.entity.Producto;
 import com.evaluacion.productosapi.service.ProductoService;
-import com.evaluacion.productosapi.service.exception.ProductoNoEncontradoException;
-import com.evaluacion.productosapi.service.exception.StockInsuficienteException;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,6 +30,11 @@ public class ProductoController {
         return productoService.obtenerPorId(id);
     }
 
+    // Get para llamar los productos por categoría
+    @GetMapping("/categoria/{categoria}")
+    public List<Producto> listarPorCategoria(@PathVariable CategoriaProducto categoria) {
+        return productoService.listarPorCategoria(categoria);
+    }
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Producto crear(@Valid @RequestBody Producto producto) {
@@ -57,14 +60,4 @@ public class ProductoController {
         return productoService.vender(id, cantidad);
     }
 
-    // Manejo básico de errores (podrías extraer a @ControllerAdvice)
-    @ExceptionHandler(ProductoNoEncontradoException.class)
-    public ResponseEntity<String> manejarNoEncontrado(ProductoNoEncontradoException ex) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
-    }
-
-    @ExceptionHandler({StockInsuficienteException.class, IllegalArgumentException.class})
-    public ResponseEntity<String> manejarBadRequest(RuntimeException ex) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
-    }
 }

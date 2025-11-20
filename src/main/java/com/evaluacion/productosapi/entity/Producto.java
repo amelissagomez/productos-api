@@ -1,9 +1,7 @@
 package com.evaluacion.productosapi.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.*;
 
 import java.math.BigDecimal;
 
@@ -24,13 +22,22 @@ public class Producto {
     @Min(value = 0, message = "La cantidad disponible no puede ser negativa")
     private Integer cantidadDisponible;
 
+    @Size(max= 255, message = "La descripción no debe exceder los 255 caracteres")
+    private String descripcion;
+
+    @NotNull(message = "La categoría es obligatoria")
+    @Enumerated(EnumType.STRING)
+    private CategoriaProducto categoria;
+
     public Producto() {
     }
 
-    public Producto(String nombre, BigDecimal precio, Integer cantidadDisponible) {
+    public Producto(String nombre, BigDecimal precio, Integer cantidadDisponible, String descripcion, CategoriaProducto categoria) {
         this.nombre = nombre;
         this.precio = precio;
         this.cantidadDisponible = cantidadDisponible;
+        this.descripcion = descripcion;
+        this.categoria = categoria;
     }
 
     // Getters y setters
@@ -66,4 +73,12 @@ public class Producto {
     public void setCantidadDisponible(Integer cantidadDisponible) {
         this.cantidadDisponible = cantidadDisponible;
     }
+
+    public String getDescripcion() {return descripcion;}
+
+    public void setDescripcion(String descripcion){this.descripcion = descripcion;}
+
+    public CategoriaProducto getCategoria() {return categoria;}
+
+    public void setCategoria(CategoriaProducto categoria) {this.categoria = categoria;}
 }

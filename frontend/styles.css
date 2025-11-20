@@ -1,0 +1,31 @@
+#tablaProductos, #tablaProductoFiltrado {
+    width: 100%;
+    border: 1px solid #000;
+    border-collapse: collapse;
+}
+
+#tablaProductos th, #tablaProductos td, #tablaProductoFiltrado th, #tablaProductoFiltrado td {
+    border: 1px solid #000;
+    padding: 8px;
+    text-align: left;
+}
+#tablaProductos th, #tablaProductoFiltrado th {
+    background-color: #000;
+    color: #fff;
+}
+#tablaProductoFiltrado {
+    margin-top: 20px;
+}
+#filtros {
+    display: flex;
+    gap: 50px;
+    align-items: center;
+}
+#filtros h4 {
+    margin: 0;
+}
+#mensaje {
+    margin-top: 20px;
+    font-weight: bold;
+    color: red;
+}

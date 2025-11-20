@@ -1,147 +1,160 @@
 {
-	"info": {
-		"_postman_id": "b3901113-b868-4abf-a0c5-656962a80172",
-		"name": "Prueba",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "9052617"
-	},
-	"item": [
-		{
-			"name": "Listar productos",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8080/productos",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"productos"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Consultar producto por ID",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8080/productos/1",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"productos",
-						"1"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Crear producto",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n  \"nombre\": \"Teclado Gamer\",\r\n  \"precio\": 150.5,\r\n  \"cantidadDisponible\": 20\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:8080/productos",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"productos"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Actualizar producto",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n  \"nombre\": \"Teclado Gamer RGB\",\r\n  \"precio\": 165.0,\r\n  \"cantidadDisponible\": 15\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:8080/productos/1",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"productos",
-						"1"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Eliminar producto",
-			"request": {
-				"method": "GET",
-				"header": []
-			},
-			"response": []
-		},
-		{
-			"name": "Vender producto",
-			"request": {
-				"method": "PATCH",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8080/productos/1/vender?cantidad=3",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"productos",
-						"1",
-						"vender"
-					],
-					"query": [
-						{
-							"key": "cantidad",
-							"value": "3"
-						}
-					]
-				}
-			},
-			"response": []
-		}
-	]
+  "info": {
+    "_postman_id": "37506cdb-8fb6-40fc-aeaf-1580491a4585",
+    "name": "Prueba",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "48212182",
+    "_collection_link": "https://ibarram0723-4576354.postman.co/workspace/Andersson-Ibarra's-Workspace~ce5551a8-0d5f-4614-8070-3b45ee9fe302/collection/48212182-37506cdb-8fb6-40fc-aeaf-1580491a4585?action=share&source=collection_link&creator=48212182"
+  },
+  "item": [
+    {
+      "name": "Listar productos",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/productos",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "productos"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Consultar producto por ID",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/productos/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "productos",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Crear producto",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"nombre\": \"Teclado Gamer\",\r\n  \"precio\": 150.5,\r\n  \"cantidadDisponible\": 20,\r\n  \"categoria\": \"TECNOLOGIA\",\r\n  \"descripcion\": \"Descripción del teclado...\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/productos",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "productos"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Actualizar producto",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"nombre\": \"Teclado Gamer RGB\",\r\n  \"precio\": 165.0,\r\n  \"cantidadDisponible\": 15,\r\n  \"categoria\": \"TECNOLOGIA\",\r\n  \"descripcion\": \"Descripción del teclado...\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/productos/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "productos",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Vender producto",
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/productos/1/vender?cantidad=3",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "productos",
+            "1",
+            "vender"
+          ],
+          "query": [
+            {
+              "key": "cantidad",
+              "value": "3"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Eliminar producto",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/productos/3",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "productos",
+            "3"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
 }

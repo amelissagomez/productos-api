@@ -1,5 +1,6 @@
 package com.evaluacion.productosapi.service;
 
+import com.evaluacion.productosapi.entity.CategoriaProducto;
 import com.evaluacion.productosapi.entity.Producto;
 import com.evaluacion.productosapi.repository.ProductoRepository;
 import com.evaluacion.productosapi.service.exception.ProductoNoEncontradoException;
@@ -27,6 +28,10 @@ public class ProductoService {
                 .orElseThrow(() -> new ProductoNoEncontradoException(id));
     }
 
+    public List<Producto> listarPorCategoria(CategoriaProducto categoria) {
+        return productoRepository.findByCategoria(categoria);
+    }
+
     public Producto crear(Producto producto) {
         producto.setId(null);
         return productoRepository.save(producto);
@@ -37,6 +42,8 @@ public class ProductoService {
         existente.setNombre(productoActualizado.getNombre());
         existente.setPrecio(productoActualizado.getPrecio());
         existente.setCantidadDisponible(productoActualizado.getCantidadDisponible());
+        existente.setDescripcion(productoActualizado.getDescripcion());
+        existente.setCategoria(productoActualizado.getCategoria());
         return productoRepository.save(existente);
     }
 
